@@ -55,7 +55,6 @@
 			var currOri;
 			var targetInput;
 			var mode = 'interacting';
-			var solvedToggle = false;
 			var z = 0;
 			var showAnswers=opts.showAnswers || false;
 			var GAME_DELIM='-';
@@ -140,8 +139,6 @@
 						if ( e.keyCode === 9) {
 
 							mode = "setting ui";
-							if (solvedToggle) solvedToggle = false;
-
 							//puzInit.checkAnswer(e)
 							nav.updateByEntry(e);
 
@@ -156,9 +153,6 @@
 					// tab navigation handler setup
 					puzzEl.delegate('input', 'click', function(e) {
 						mode = "setting ui";
-						if (solvedToggle){
-							solvedToggle = false;
-						}
 						nav.updateByEntry(e);
 						e.preventDefault();
 					});
@@ -423,14 +417,12 @@
 							.removeClass('active');
 
 						$('.clues-active').addClass('clue-done');
-						solvedToggle = true;
 						puzz.data[activePosition].solved = true;
 					} else {
 						$('.active')
 							.removeClass('done')
 							.addClass('active');
 
-						solvedToggle = false;
 
 						$('.clues-active').removeClass('clue-done');
 						puzz.data[activePosition].solved = false;
