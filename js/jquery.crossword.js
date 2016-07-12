@@ -139,7 +139,7 @@
 						if ( e.keyCode === 9) {
 
 							mode = "setting ui";
-							//puzInit.checkAnswer(e)
+							puzInit.checkAnswer(e)
 							nav.updateByEntry(e);
 
 						} else {
