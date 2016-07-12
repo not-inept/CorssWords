@@ -594,17 +594,29 @@
 				},
 
 				// Sets activePosition var and adds active class to current entry
-				updateByEntry: function(e, next) {
+				updateByEntry: function(e) {
 					var classes, next, clue, e1Ori, e2Ori, e1Cell, e2Cell;
 
-					if(e.keyCode === 9 || next){
+					if(e.keyCode === 9){
 						// handle tabbing through problems, which keys off clues and requires different handling
-						activeClueIndex = activeClueIndex === clueLiEls.length-1 ? 0 : ++activeClueIndex;
+						if (e.shiftKey) {
+							// Shift+Tab goes backwards through problems
+							activeClueIndex = activeClueIndex === 0 ? clueLiEls.length-1 : --activeClueIndex;
 
-						$('.clues-active').removeClass('.clues-active');
+							$('.clues-active').removeClass('.clues-active');
 
-						if(++activePosition >= puzz.data.length){
-							activePosition = 0;
+							if(--activePosition < 0){
+								activePosition = puzz.data.length-1;
+							}
+						}
+						else {
+							activeClueIndex = activeClueIndex === clueLiEls.length-1 ? 0 : ++activeClueIndex;
+
+							$('.clues-active').removeClass('.clues-active');
+
+							if(++activePosition >= puzz.data.length){
+								activePosition = 0;
+							}
 						}
 					} else {
 						activeClueIndex = activeClueIndex === clueLiEls.length-1 ? 0 : ++activeClueIndex;
