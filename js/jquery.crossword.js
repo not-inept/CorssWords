@@ -675,10 +675,6 @@
 					var cells = $(el).closest('td').data('cells');
 					if(cells.length > 1){
 
-						if(mode === "setting ui"){
-							currOri = cells[(cells[0].word === 0) ? 0 : 1].data.orientation
-						}
-
 						for(var i=0;i<cells.length;i++){
 							if(cells[i].data.orientation == currOri){
 								activePosition = cells[i].position
