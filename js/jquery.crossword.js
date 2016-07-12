@@ -85,6 +85,12 @@
 					currOri = 'across'; // app's init orientation could move to config object
 					// Set keyup handlers for the 'entry' inputs that will be added presently
 					puzzEl.delegate('input', 'keyup', function(e){
+						// Ignore modifier keys
+						var modifierKeys = [16, 17, 18, 91, 224];
+						if ($.inArray(e.which, modifierKeys) >-1) {
+							return;
+						}
+
 						mode = 'interacting';
 
 						// need to figure out orientation up front, before we attempt to highlight an entry
