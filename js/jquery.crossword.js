@@ -465,9 +465,9 @@
 					});
 					gameString += hintsRemaining;
 
-					// Set the cookie using jquery-cookie if it exists.
-					// https://github.com/carhartl/jquery-cookie
-					$.cookie && $.cookie(cookieName,gameString,{
+					// Set the cookie using js-cookie if it exists.
+					// https://github.com/js-cookie/js-cookie
+					Cookies && Cookies.set(cookieName, gameString, {
 						path:cookiePath,
 						expires: COOKIE_EXPIRY
 					});
@@ -483,7 +483,7 @@
 					var $inputs = puzzEl.find('input');
 
 					if(!gameString){
-						gameString = $.cookie && $.cookie(cookieName);
+						gameString = Cookies && Cookies.get(cookieName);
 					}
 
 					if(!gameString || gameString.length < $inputs.length){
