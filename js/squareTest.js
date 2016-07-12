@@ -5,11 +5,13 @@
 		// provide crossword entries in an array of objects like the following example
 		// Position refers to the numerical order of an entry. Each position can have
 		// two entries: an across entry and a down entry
+		// Set rot13: true if the answer is obfuscated with ROT13
 		var entryData = [
 			{
 				clue: "First letter of greek alphabet",
 				answer: "alpha",
 				position: 1,
+				rot13: false,
 				orientation: "across",
 				startx: 1,
 				starty: 1

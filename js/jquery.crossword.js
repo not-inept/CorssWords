@@ -262,9 +262,7 @@
 						positionOffset = entryCount - puzz.data[puzz.data.length-1].position; // diff. between total ENTRIES and highest POSITIONS
 
 					for (var x=1, p = entryCount; x <= p; ++x) {
-						var letters = (puzz.data[x-1].rot13 ?
-                                                    util.rot13(puzz.data[x-1].answer) : puzz.data[x-1].answer
-                                                ).split('');
+						var letters = (puzz.data[x-1].rot13 ? util.rot13(puzz.data[x-1].answer) : puzz.data[x-1].answer).split('');
 
 						for (var i=0; i < entries[x-1].length; ++i) {
 							var thisPuzz = puzz.data[x-1];
@@ -354,7 +352,7 @@
 						var $entry = $entries.eq(possibleCells[random]);
 
 						var clue = data.answer.substr(possibleCells[random],1);
-                                                if (data.rot13) clue = util.rot13(clue);
+						if (data.rot13) clue = util.rot13(clue);
 						$entry.val(clue);
 
 						_this.updateHintsRemaining(--hintsRemaining);
@@ -368,9 +366,6 @@
 				adjustDims : function(){
 					var onResize = function(){
 						var $table = $(puzzEl).find('table');
-
-
-
 
 						var w = $table.width();
 						$table.height(w);
@@ -406,11 +401,10 @@
 					util.getActivePositionFromClassGroup($(e.target));
 
 					valToCheck = puzz.data[activePosition].answer.toLowerCase();
-                                        if (puzz.data[activePosition].rot13)
-                                            valToCheck=util.rot13(valToCheck);
+					if (puzz.data[activePosition].rot13) valToCheck = util.rot13(valToCheck);
 					currVal = $('.position-' + activePosition + ' input')
 						.map(function() {
-					  		return $(this)
+							return $(this)
 								.val()
 								.toLowerCase();
 						})
@@ -691,18 +685,17 @@
 
 				},
 				/*
-                                    Rot13 hides answers from *accidental* disclosure. Cheaters can still cheat :)
-                                */
-                                rot13: function(s) {
-                                return s;
-                                    return (s ? s : this).split('').map(function(_)
-                                    {
-                                         if (!_.match(/[A-za-z]/)) return _;
-                                         c = Math.floor(_.charCodeAt(0) / 97);
-                                         k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
-                                         return String.fromCharCode(k + ((c == 0) ? 64 : 96));
-                                    }).join('');
-                                },
+					Rot13 hides answers from *accidental* disclosure. Cheaters can still cheat :)
+				*/
+				rot13: function(s) {
+					return (s ? s : this).split('').map(function(_)
+					{
+						 if (!_.match(/[A-za-z]/)) return _;
+						 c = Math.floor(_.charCodeAt(0) / 97);
+						 k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
+						 return String.fromCharCode(k + ((c == 0) ? 64 : 96));
+					}).join('');
+				},
 
 				getSkips: function(position) {
 					if ($(clueLiEls[position]).hasClass('clue-done')){
