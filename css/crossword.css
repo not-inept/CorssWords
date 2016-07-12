@@ -1,6 +1,3 @@
-/*
-	puzzle styling - #CeilingKeith skin
-*/
 body {
 	font: 62.5%/1.3em Helvetica, sans-serif;
 	width: 90.3%;
@@ -41,9 +38,6 @@ table.crossword {
 	border: 1px solid #cdcdcd;
 	border-spacing: 0;
 	max-width: 100%;
-/* begin #CeilingKeith
-	background: #333 url('gfx/ceiling-keith-pat.jpg') repeat;
-end #CeilingKeith */
 	border-collapse: collapse;
 }
 table.crossword tr{
@@ -54,9 +48,6 @@ table.crossword td {
 	margin: 0;
 	border: 1px solid #cdcdcd;
 	background-color: #333;
-/* begin #CeilingKeith
-	border: 1px solid #000;
-end #CeilingKeith */
 	vertical-align: top;
 }
 table.crossword td div{
