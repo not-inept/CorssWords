@@ -69,14 +69,6 @@
 			 */
 			var cookieName = LOCALSTORAGE_KEY+opts.id;
 
-			/**
-			 * Path for our cookie to stop it leaking all over the
-			 * place. Remove anything after the trailing slash.
-			 * @type {[type]}
-			 */
-			var cookiePath = String(window.location.pathname)
-				.replace(/\/[^/]*$/,'/');
-
 			var puzInit = {
 
 				init: function() {
@@ -486,7 +478,6 @@
 					// Set the cookie using js-cookie if it exists.
 					// https://github.com/js-cookie/js-cookie
 					Cookies && Cookies.set(cookieName, gameString, {
-						path:cookiePath,
 						expires: COOKIE_EXPIRY
 					});
 				},
