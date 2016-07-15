@@ -185,3 +185,7 @@ table.crossword input.done {
 	color: red;
 	float: right;
 }
+
+.message {
+	font-size: 1.25em;
+}
