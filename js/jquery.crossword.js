@@ -122,10 +122,15 @@
 						){
 							nav.nextPrevNav(e);
 						} else {
-							puzInit.checkAnswer(e);
-							if(currOri === 'across'){
+							var solved = puzInit.checkAnswer(e);
+							if (solved) {
+								// If current word is solved, move on to next word
+								nav.updateByEntry(null, true);
+							}
+							else if(currOri === 'across'){
 								nav.nextPrevNav(e, 39);
-							} else {
+							}
+							else {
 								nav.nextPrevNav(e, 40);
 							}
 						}
@@ -455,6 +460,7 @@
 
 					this.saveGame();
 
+					return puzz.data[activePosition].solved;
 				},
 				triggerGameWon : function(){
 					if(puzz.won)return;
@@ -600,12 +606,12 @@
 				},
 
 				// Sets activePosition var and adds active class to current entry
-				updateByEntry: function(e) {
-					var classes, next, clue, e1Ori, e2Ori, e1Cell, e2Cell;
+				updateByEntry: function(e, next) {
+					var classes, clue, e1Ori, e2Ori, e1Cell, e2Cell;
 
-					if(e.keyCode === 9){
+					if(next || e.keyCode === 9){
 						// handle tabbing through problems, which keys off clues and requires different handling
-						if (e.shiftKey) {
+						if (e && e.shiftKey) {
 							// Shift+Tab goes backwards through problems
 							activeClueIndex = activeClueIndex === 0 ? clueLiEls.length-1 : --activeClueIndex;
 
