@@ -75,7 +75,7 @@
 					puzz.data = util.calculateCluePositions(puzz.data);
 					currOri = 'across'; // app's init orientation could move to config object
 					// Set keyup handlers for the 'entry' inputs that will be added presently
-					puzzEl.delegate('input', 'keyup', function(e){
+					puzzEl.delegate('input', 'keydown', function(e){
 						// Ignore modifier keys
 						var modifierKeys = [16, 17, 18, 91, 224];
 						if ($.inArray(e.which, modifierKeys) >-1) {
@@ -98,22 +98,29 @@
 								break;
 						}
 
-						if ( e.keyCode === 9) {
+						if (e.keyCode === 9) {
 							return false;
-						} else if (e.keyCode === 8 || e.keyCode === 46){
+						}
+						else if (e.keyCode === 8 || e.keyCode === 46) {
+							e.target.value = '';
 							if(currOri === 'across'){
 								nav.nextPrevNav(e, 37);
-							} else {
+							}
+							else {
 								nav.nextPrevNav(e, 38);
 							}
-						} else if(
+							return true;
+						}
+						else if (
 							e.keyCode === 37 ||
 							e.keyCode === 38 ||
 							e.keyCode === 39 ||
 							e.keyCode === 40
-						){
+						) {
 							nav.nextPrevNav(e);
-						} else {
+						}
+						else {
+							e.target.value = e.originalEvent.key;
 							var solved = puzInit.checkAnswer(e);
 							if (solved) {
 								// If current word is solved, move on to next word
@@ -433,7 +440,6 @@
 						$('.active')
 							.removeClass('done')
 							.addClass('active');
-
 
 						$('.clues-active').removeClass('clue-done');
 						puzz.data[activePosition].solved = false;
