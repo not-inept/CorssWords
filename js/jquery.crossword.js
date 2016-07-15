@@ -184,6 +184,7 @@
 					// DELETE FOR BG
 					puzInit.buildTable();
 					puzInit.buildEntries();
+					puzInit.buildResetButton();
 					puzInit.buildHintButton();
 					puzInit.adjustDims();
 					puzInit.loadGame();
@@ -361,6 +362,19 @@
 					});
 					clues.prepend($button);
 					this.updateHintsRemaining(hintsRemaining);
+				},
+
+				buildResetButton: function() {
+					var _this = this;
+					var $button = $('<a class="btn reset">Reset Puzzle</a>');
+
+					$button.click(function(){
+						if (confirm('Are you sure you want to reset the puzzle?')) {
+							Cookies.remove(cookieName);
+							location.reload();
+						}
+					});
+					clues.prepend($button);
 				},
 
 				adjustDims : function(){
