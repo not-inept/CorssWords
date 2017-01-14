@@ -140,7 +140,7 @@
 								}
 							}
 							if (e.originalEvent.keyCode == 229) {
-								setTimeout(postCheck, 150);
+								setTimeout(postCheck, 50);
 								return
 							} else {
 								e.target.value = e.originalEvent.key;
