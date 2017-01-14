@@ -81,6 +81,7 @@
 					currOri = 'across'; // app's init orientation could move to config object
 					// Set keyup handlers for the 'entry' inputs that will be added presently
 					puzzEl.delegate('input', 'keydown', function(e){
+						window.teste = e;
 						// Ignore modifier keys
 						var modifierKeys = [16, 17, 18, 91, 224];
 						if ($.inArray(e.which, modifierKeys) >-1) {
@@ -125,22 +126,31 @@
 							nav.nextPrevNav(e);
 						}
 						else {
-							e.target.value = e.originalEvent.key;
-							var solved = puzInit.checkAnswer(e);
-							if (solved) {
-								// If current word is solved, move on to next word
-								nav.updateByEntry(null, true);
+							var postCheck = function() {
+								var solved = puzInit.checkAnswer(e);
+								if (solved) {
+									// If current word is solved, move on to next word
+									nav.updateByEntry(null, true);
+								}
+								else if(currOri === 'across'){
+									nav.nextPrevNav(e, 39);
+								}
+								else {
+									nav.nextPrevNav(e, 40);
+								}
 							}
-							else if(currOri === 'across'){
-								nav.nextPrevNav(e, 39);
-							}
-							else {
-								nav.nextPrevNav(e, 40);
+							if (e.originalEvent.keyCode == 229) {
+								setTimeout(postCheck, 150);
+								return
+							} else {
+								e.target.value = e.originalEvent.key;
+								postCheck();
+								e.preventDefault();
+								return false;
 							}
 						}
 
-						e.preventDefault();
-						return false;
+
 					});
 
 					// tab navigation handler setup
@@ -289,7 +299,7 @@
 
 							if(light.is(':empty')){
 								var $container = $('<div>');
-								var $input = $('<input maxlength="1" val="" type="text" tabindex="-1" />');
+								var $input = $('<input maxlength="1" val="" value="" type="text" tabindex="-1" />');
 								if(showAnswers){
 									$input.val(letters[i]);
 								}
@@ -482,8 +492,19 @@
 				saveGame : function(){
 					var gameString = '';
 					puzzEl.find('input').each(function(){
-						gameString += ($(this).val() || GAME_DELIM);
-					});
+						if (this.value == 'Unidentified') {
+							console.log(this)
+							console.log($(this).val());
+							console.log(this.value);
+							this.value = '';
+						}
+						if (this.value != '' && typeof this.value != 'undefined') {
+							console.log(this.value);
+							gameString += this.value;
+						} else {
+							console.log(GAME_DELIM)
+							gameString += GAME_DELIM;
+						}					});
 					// gameString += hintsRemaining;
 
 				  var updates = {};
