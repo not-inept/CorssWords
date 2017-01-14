@@ -484,7 +484,7 @@
 					puzzEl.find('input').each(function(){
 						gameString += ($(this).val() || GAME_DELIM);
 					});
-					gameString += hintsRemaining;
+					// gameString += hintsRemaining;
 
 				  var updates = {};
 				  updates['/gameData'] = gameString;
