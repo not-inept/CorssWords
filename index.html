@@ -8,6 +8,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Crossword Puzzle</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.5/firebase.js"></script>
+    <script src="js/firebase.config.js"></script>
+
 		<script src="js/jquery.min.js"></script>
 		<script src="js/js.cookie.min.js"></script>
 		<link rel="stylesheet" href="css/crossword.css" type="text/css">
@@ -18,6 +22,9 @@
 
 	<body>
 		<h3 align=center>Crossword</h3>
+    <div id="app">
 		<div id="puzzle-wrapper"><!-- crossword puzzle appended here --></div>
+    </div>
+    <script src="js/firebase.app.js"></script>
 	</body>
 </html>

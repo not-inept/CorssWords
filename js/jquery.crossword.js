@@ -28,7 +28,7 @@
 
 			// append clues markup after puzzle wrapper div
 			// This should be moved into a configuration object
-			this.wrap( "<div class='crossword-container'></div>" );
+			this.wrap("<div class='crossword-container'></div>");
 			this.after('<div style="clear:both"></div>');
 			this.after('<div id="puzzle-clues"><div class="across"><h2>' +croswordMessages.Across + '</h2><ul></ul></div><div class="down"><h2>' + croswordMessages.Down + '</h2><ul></ul></div></div>');
 
@@ -62,6 +62,9 @@
 			var COOKIE_EXPIRY=21; //days
 			var HINT_CAPTION = croswordMessages.HintCaption;
 
+			// firebase
+			firebase.initializeApp(firebaseConfig);
+			var database = firebase.database();
 
 			/**
 			 * Name for our savegame cookie.
@@ -69,10 +72,12 @@
 			 */
 			var cookieName = LOCALSTORAGE_KEY+opts.id;
 
+
 			var puzInit = {
 
 				init: function() {
 					puzz.data = util.calculateCluePositions(puzz.data);
+					console.log('callled');
 					currOri = 'across'; // app's init orientation could move to config object
 					// Set keyup handlers for the 'entry' inputs that will be added presently
 					puzzEl.delegate('input', 'keydown', function(e){
@@ -481,11 +486,15 @@
 					});
 					gameString += hintsRemaining;
 
+				  var updates = {};
+				  updates['/gameData'] = gameString;
+				  // updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+					firebase.database().ref().update(updates);
 					// Set the cookie using js-cookie if it exists.
 					// https://github.com/js-cookie/js-cookie
-					Cookies && Cookies.set(cookieName, gameString, {
-						expires: COOKIE_EXPIRY
-					});
+					// Cookies && Cookies.set(cookieName, gameString, {
+					// 	expires: COOKIE_EXPIRY
+					// });
 				},
 				/**
 				 * Load a game from a savegame string. Note that this will only
@@ -496,25 +505,24 @@
 				loadGame : function(gameString){
 					var _this = this;
 					var $inputs = puzzEl.find('input');
+					database.ref('/gameData').on('value', function(snapshot) {
+					  var gameString = snapshot.val();
+					  console.log('dir' + gameString);
+						if(!gameString || gameString.length < $inputs.length){
+							return;
+						}	
+						$inputs.each(function(i){
+							var chr = gameString.substr(i,1);
+							$(this).val(chr == GAME_DELIM ? '' : chr);
+						});
 
-					if(!gameString){
-						gameString = Cookies && Cookies.get(cookieName);
-					}
+						var hintsSaved = gameString.substr($inputs.length);
+						if(hintsSaved){
+							hintsRemaining = hintsSaved;
+							_this.updateHintsRemaining(hintsRemaining);
+						}				
+					});					
 
-					if(!gameString || gameString.length < $inputs.length){
-						return;
-					}
-
-					$inputs.each(function(i){
-						var chr = gameString.substr(i,1);
-						$(this).val(chr == GAME_DELIM ? '' : chr);
-					});
-
-					var hintsSaved = gameString.substr($inputs.length);
-					if(hintsSaved){
-						hintsRemaining = hintsSaved;
-						_this.updateHintsRemaining(hintsRemaining);
-					}
 				}
 
 
